@@ -10,21 +10,6 @@ find_package(catkin REQUIRED
   message_generation
 )
 
-# https://answers.ros.org/question/52744/how-to-specify-dependencies-with-foo_msgs-catkin-packages/
-# https://answers.ros.org/question/66566/msg-dependencies-in-catkin/
-# https://answers.ros.org/question/53265/catkin-messages-and-node-in-same-package/
-# https://answers.ros.org/question/62092/catkin_make-started-failing-to-generate-h-from-msg/
-# https://answers.ros.org/question/73048/first-compile-with-messages-messages-not-found/
-add_dependencies(${BIN_TALKER} 
-  ${catkin_EXPORTED_TARGETS}
-)
-add_dependencies(${BIN_LISTENER} 
-  ${catkin_EXPORTED_TARGETS}
-)
-add_dependencies(${LIB_PHASESPACE} 
-  ${catkin_EXPORTED_TARGETS}
-)
-
 add_message_files(
   DIRECTORY msg
   FILES
@@ -68,6 +53,9 @@ target_link_libraries(${BIN_TALKER}
   ${catkin_LIBRARIES}
   owlsock
 )
+add_dependencies(${BIN_TALKER} 
+  ${catkin_EXPORTED_TARGETS}
+)
 
 # Listener
 add_executable(${BIN_LISTENER}
@@ -78,6 +66,9 @@ target_link_libraries(${BIN_LISTENER}
   ${catkin_LIBRARIES}
   owlsock
 )
+add_dependencies(${BIN_LISTENER} 
+  ${catkin_EXPORTED_TARGETS}
+)
 
 # Exported library
 add_library(${LIB_PHASESPACE}
@@ -86,4 +77,7 @@ add_library(${LIB_PHASESPACE}
 target_link_libraries(${LIB_PHASESPACE}
   ${catkin_LIBRARIES}
   owlsock
+)
+add_dependencies(${LIB_PHASESPACE} 
+  ${catkin_EXPORTED_TARGETS}
 )
