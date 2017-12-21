@@ -81,3 +81,8 @@ target_link_libraries(${LIB_PHASESPACE}
 add_dependencies(${LIB_PHASESPACE} 
   ${catkin_EXPORTED_TARGETS}
 )
+
+# https://answers.ros.org/question/64448/trouble-with-catkin-compiling-node-and-generating-messages-in-same-package/
+add_dependencies(${LIB_PHASESPACE} 
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+)
