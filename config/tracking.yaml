@@ -1,0 +1,16 @@
+---
+# Based on http://wiki.ros.org/tf, 100ms (10hz) is a good value.
+publish_frequency: 30
+
+phasespace_topic: "/phasespace_topic"
+
+tracked_objects:
+  1:
+    frame_id: "vicon/HND_RHAND/HND_RHAND"
+    base_frame: "/world"
+    phasespace_id: 1
+
+
+
+
+...
