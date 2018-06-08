@@ -5,7 +5,6 @@ from catkin.find_in_workspaces import find_in_workspaces
 from IPython import embed
 import std_msgs, tf
 import itertools
-import rviz_tools_py.rviz_tools
 import tf.transformations
 
 from phasespace_acquisition.msg import PhaseSpaceMarker, PhaseSpaceMarkerArray
