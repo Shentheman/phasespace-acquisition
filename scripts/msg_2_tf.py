@@ -12,10 +12,9 @@ from phasespace_acquisition.msg import PhaseSpaceMarker, PhaseSpaceMarkerArray
 
 class Msg2Tf(object):
     def __init__(self):
-        REPO_NAME = "phasespace_acquisition"
         base_path = find_in_workspaces(
             search_dirs=['share'],
-            project=REPO_NAME,
+            project="phasespace_acquisition",
             path='config',
             first_match_only=True)
         if len(base_path) == 0:

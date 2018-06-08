@@ -1,0 +1,11 @@
+---
+# Based on http://wiki.ros.org/tf, 100ms (10hz) is a good value.
+publish_frequency: 30
+
+# tf bw /odom_combined and /map
+map_2_odomCombined_trans: [0, 0, 0]
+map_2_odomCombined_quat: [0, 0, 0, 1]
+
+
+
+...
