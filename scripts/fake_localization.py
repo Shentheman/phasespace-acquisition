@@ -6,6 +6,7 @@ from geometry_msgs.msg import Pose, Quaternion, Point, TransformStamped
 from IPython import embed
 from catkin.find_in_workspaces import find_in_workspaces
 
+
 class FakeLocalizer(object):
     def __init__(self):
         base_path = find_in_workspaces(
@@ -22,7 +23,7 @@ class FakeLocalizer(object):
 
         # Based on http://wiki.ros.org/tf, 100ms (10hz) is a good value.
         self._rate = rospy.Rate(self.localization_config_["publish_frequency"])
-        
+
         # We need to publish the tf bw /map and /odom_combined
         # to /base_pose_ground_truth as nav_msgs/Odometry,
         # so that fake_localization can use it to localize the robot base.
@@ -32,8 +33,10 @@ class FakeLocalizer(object):
         # self._vOdom.header.frame_id = "map"
         # self._vOdom.child_frame_id = "odom_combined"
 
-        self.map_2_odomCombined_trans = self.localization_config_["map_2_odomCombined_trans"] 
-        self.map_2_odomCombined_quat = self.localization_config_["map_2_odomCombined_quat"] 
+        self.map_2_odomCombined_trans = self.localization_config_[
+            "map_2_odomCombined_trans"]
+        self.map_2_odomCombined_quat = self.localization_config_[
+            "map_2_odomCombined_quat"]
 
     def run(self):
         rospy.loginfo("[FakeLocalizer.run] Start running!")
@@ -56,6 +59,7 @@ class FakeLocalizer(object):
             self._vOdom_pub.publish(self._vOdom)
 
             self._rate.sleep()
+
 
 if __name__ == "__main__":
     rospy.init_node("FakeLocalizer")

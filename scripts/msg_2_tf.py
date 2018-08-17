@@ -9,6 +9,7 @@ import tf.transformations
 
 from phasespace_acquisition.msg import PhaseSpaceMarker, PhaseSpaceMarkerArray
 
+
 class Msg2Tf(object):
     def __init__(self):
         base_path = find_in_workspaces(
@@ -24,7 +25,7 @@ class Msg2Tf(object):
             open(self.base_path_ + '/tracking.yaml'))
 
         self.publish_rate_ = rospy.Rate(
-                self.tracking_config_["publish_frequency"])
+            self.tracking_config_["publish_frequency"])
 
         self.br_ = tf.TransformBroadcaster()
 
@@ -35,10 +36,8 @@ class Msg2Tf(object):
             self.tracked_collision_objects_[int(k)]\
                     = self.tracked_collision_objects_.pop(k)
 
-        rospy.Subscriber(
-                self.tracking_config_["phasespace_topic"],
-                PhaseSpaceMarkerArray,
-                self.phasespace_callback)
+        rospy.Subscriber(self.tracking_config_["phasespace_topic"],
+                         PhaseSpaceMarkerArray, self.phasespace_callback)
         self.phasespace_marker_array = None
 
         # Original origin is defined originally on the floor.
@@ -58,26 +57,27 @@ class Msg2Tf(object):
                     if k in self.tracked_collision_objects_.keys():
                         obj = self.tracked_collision_objects_[k]
                         # trans = [ps_obj.point.x/1000., ps_obj.point.y/1000.,
-                                # ps_obj.point.z/1000.]
+                        # ps_obj.point.z/1000.]
                         # We exchange y and z so that it is more intuitive
-                        trans = [ps_obj.point.x/1000., ps_obj.point.y/1000.,
-                                ps_obj.point.z/1000.]
-                        quat = [0,0,0,1]
+                        trans = [
+                            ps_obj.point.x / 1000., ps_obj.point.y / 1000.,
+                            ps_obj.point.z / 1000.
+                        ]
+                        quat = [0, 0, 0, 1]
                         originalOrigin_2_obj_mat\
                                 = tf.transformations.translation_matrix(trans)
                         newOrigin_2_obj_mat = np.dot(
-                                np.linalg.inv(self.originalOrigin_2_newOrigin),
-                                originalOrigin_2_obj_mat)
+                            np.linalg.inv(self.originalOrigin_2_newOrigin),
+                            originalOrigin_2_obj_mat)
                         # self.tracked_collision_objects_[k][
-                                # "newOrigin_2_obj_mat"] = newOrigin_2_obj_mat
+                        # "newOrigin_2_obj_mat"] = newOrigin_2_obj_mat
                         self.br_.sendTransform(
-                                tf.transformations.translation_from_matrix(
-                                    newOrigin_2_obj_mat),
-                                tf.transformations.quaternion_from_matrix(
-                                    newOrigin_2_obj_mat),
-                                rospy.Time.now(),
-                                obj["frame_id"], obj["base_frame"])
- 
+                            tf.transformations.translation_from_matrix(
+                                newOrigin_2_obj_mat),
+                            tf.transformations.quaternion_from_matrix(
+                                newOrigin_2_obj_mat), rospy.Time.now(),
+                            obj["frame_id"], obj["base_frame"])
+
             self.publish_rate_.sleep()
 
 
