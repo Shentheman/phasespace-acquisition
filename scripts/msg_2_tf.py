@@ -40,11 +40,38 @@ class Msg2Tf(object):
                          PhaseSpaceMarkerArray, self.phasespace_callback)
         self.phasespace_marker_array = None
 
-        # Original origin is defined originally on the floor.
-        # New origin is the one we are using
-        # - x to the right, y to the front, z to the top
-        self.originalOrigin_2_newOrigin\
-                = np.array([[-1,0,0,0], [0,0,1,0], [0,1,0,0], [0,0,0,1]])
+        # Original origin is defined originally on the floor by Pem
+        # for the phasespace system.
+        # Now here we define a new origin, as shown on RVIZ as the
+        # TF of the map.
+        """
+        self.originalOrigin_2_newOrigin_trans = [0,0,0]
+        self.originalOrigin_2_newOrigin_quat = [0,0,0,1]
+        self.originalOrigin_2_newOrigin_mat\
+                = tf.transformations.quaternion_matrix(
+                        self.originalOrigin_2_newOrigin_quat)
+        self.originalOrigin_2_newOrigin_mat[0,3]\
+                = self.originalOrigin_2_newOrigin_trans[0]
+        self.originalOrigin_2_newOrigin_mat[1,3]\
+                = self.originalOrigin_2_newOrigin_trans[1]
+        self.originalOrigin_2_newOrigin_mat[2,3]\
+                = self.originalOrigin_2_newOrigin_trans[2]
+
+        # Archived:
+        #  self.originalOrigin_2_newOrigin_mat\
+                #  = np.array([\
+                #  [-1,0,0,0],\
+                #  [0,0,1,0],\
+                #  [0,1,0,0],\
+                #  [0,0,0,1]])
+        """
+
+        self.originalOrigin_2_newOrigin_mat\
+                = np.array([\
+                [0,1,0,0],\
+                [0,0,1,0],\
+                [1,0,0,0],\
+                [0,0,0,1]])
 
     def phasespace_callback(self, data):
         self.phasespace_marker_array = data
@@ -67,7 +94,7 @@ class Msg2Tf(object):
                         originalOrigin_2_obj_mat\
                                 = tf.transformations.translation_matrix(trans)
                         newOrigin_2_obj_mat = np.dot(
-                            np.linalg.inv(self.originalOrigin_2_newOrigin),
+                            np.linalg.inv(self.originalOrigin_2_newOrigin_mat),
                             originalOrigin_2_obj_mat)
                         # self.tracked_collision_objects_[k][
                         # "newOrigin_2_obj_mat"] = newOrigin_2_obj_mat

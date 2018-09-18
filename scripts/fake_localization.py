@@ -35,9 +35,12 @@ class FakeLocalizer(object):
 
         self.map_2_odomCombined_trans = self.localization_config_[
             "map_2_odomCombined_trans"]
-        self.map_2_odomCombined_quat = self.localization_config_[
-            "map_2_odomCombined_quat"]
-
+        euler = self.localization_config_[
+            "map_2_odomCombined_euler"]
+        self.map_2_odomCombined_quat\
+                = tf.transformations.quaternion_from_euler(
+                        euler[0], euler[1], euler[2], 'rzyx')
+ 
     def run(self):
         rospy.loginfo("[FakeLocalizer.run] Start running!")
         while not rospy.is_shutdown():
