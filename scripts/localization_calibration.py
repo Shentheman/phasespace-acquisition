@@ -9,6 +9,7 @@ import tf.transformations
 
 from phasespace_acquisition.msg import PhaseSpaceMarker, PhaseSpaceMarkerArray
 
+#  "phasespace/palm/left"
 PHASESPACE_ID_FOR_CALIBRATION = 1
 
 class LocalizationCalibration(object):
