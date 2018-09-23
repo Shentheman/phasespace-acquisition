@@ -1,7 +1,7 @@
 ---
 # Based on http://wiki.ros.org/tf, 100ms (10hz) is a good value.
 # publish_frequency: 30
-publish_frequency: 60
+publish_frequency: 100
 
 phasespace_topic: "/phasespace_topic"
 
