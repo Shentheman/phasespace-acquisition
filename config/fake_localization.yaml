@@ -4,7 +4,8 @@ publish_frequency: 30
 
 # tf bw /odom_combined and /map
 # map_2_odomCombined_trans: [0.08675341796875, 2.47867431640625, 0]
-map_2_odomCombined_trans: [0.3936730651855469, 2.43558203125, 0.31684228515625]
+# map_2_odomCombined_trans: [0.3936730651855469, 2.43558203125, 0.31684228515625]
+map_2_odomCombined_trans: [0.3936730651855469, 2.43558203125, 0.]
 map_2_odomCombined_euler: [-1.57, 0, 0]
 
 
