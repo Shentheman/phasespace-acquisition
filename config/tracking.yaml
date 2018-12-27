@@ -8,37 +8,37 @@ phasespace_topic: "/phasespace_topic"
 tracked_objects:
   1:
     frame_id: "phasespace/palm/left"
-    base_frame: "map"
+    base_frame: "/odom_combined"
     phasespace_id: 1
 
   2:
     frame_id: "phasespace/palm/right"
-    base_frame: "map"
+    base_frame: "/odom_combined"
     phasespace_id: 2
 
   # 3:
     # frame_id: "phasespace/finger/middle"
-    # base_frame: "map"
+    # base_frame: "/odom_combined"
     # phasespace_id: 3
   # 4:
     # frame_id: "phasespace/finger/index"
-    # base_frame: "map"
+    # base_frame: "/odom_combined"
     # phasespace_id: 4
   # 6:
     # frame_id: "phasespace/finger/thumb"
-    # base_frame: "map"
+    # base_frame: "/odom_combined"
     # phasespace_id: 6
   # 7:
     # frame_id: "phasespace/finger/ring"
-    # base_frame: "map"
+    # base_frame: "/odom_combined"
     # phasespace_id: 7
   # 0:
     # frame_id: "phasespace/finger/pinky"
-    # base_frame: "map"
+    # base_frame: "/odom_combined"
     # phasespace_id: 0
   # 8:
     # frame_id: "phasespace/albow"
-    # base_frame: "map"
+    # base_frame: "/odom_combined"
     # phasespace_id: 8
 
 ...
