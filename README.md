@@ -1,33 +1,43 @@
-# PhaseSpace Acquisition Package
-This package provides a ROS node to retrieve data from the *PhaseSpace Motion Capture System*. Gathered data is sent automatically over a local network (check the server ip of the system).
+# PhaseSpace
 
-The ROS publisher node, i.e. *phasespace_talker*, publishes data on a topic (by default *phasespace_topic*) using `phasespace_acquisition::PhaseSpaceMarkerArray` messages, which collect markers position for each sample. This data can be stored in log files if necessary, e.g. using a node like the *phasespace_listener* (the two log files created contain the same data in a different format).
+## Launching robot with fake localization
+- `roslaunch yuri_launch despot.launch`
 
-## Usage
-The publisher and the listener nodes can be started with `rosrun` command and few ROS params can be set to fit your needs: 
+## Launching phasespace
+* `roslaunch phasespace_acquisition phasespace_publisher.launch`
+  - Note that if you are running `despot.launch`, `phasespace_publisher.launch` might fail due to communication problems
+  - After you physically connect the robot with phasespace, SSH into the robot router becomes very slow. So you should open all the necessary terminals with SSH **before** connecting to phasespace.
+  - If connection keeps failing, then you can try reconnect the ethernet cable physically or re-Enable networking in Ubuntu.
+* `rosrun phasespace_acquisition msg_2_tf.py`
+  - This will output the left LED on the palm as `phasespace/palm/left`
+  * `rosrun phasespace_acquisition msg_2_tf_avg_palm.py`
+    - This will output the center of the 2 LEDs on the palm as `phasespace/palm`
 
- - `rosrun phasespace_acquisition phasespace_talker`
- - `rosrun phasespace_acquisition phasespace_talker _server_ip:=192.168.1.230`
- - `rosrun phasespace_acquisition phasespace_listener`
- - `rosrun phasespace_acquisition phasespace_listener _verbose_mode:=true`
+## Robot base localization
+* In the phasespace environment, we don't have the markers to track the real-time pose of the robot
+* Therefore, we will hard code the pose of the robot base and **make sure that the robot never moves during the experiments**
+* Technically speaking, we will keep publishing the pose of the robot base `/odom_combined` in the frame of `map`.
+  - `rosrun phasespace_acquisition fake_localization.py`
 
-Otherwise a launch file can be set with the actual configuration of the glove. Two launch files with default settings are provided in the package, e.g. to start only the publisher node you can use `roslaunch phasespace_acquisition phasespace_publisher.launch` and to store also the data acquired in log files use `roslaunch phasespace_acquisition phasespace.launch`. Feel free to build others that fit your hardware configuration.
+### Calibration pre-defined robot localization
+* The calibration information is in `./config/fake_localization.yaml`
+  - `map_2_odomCombined_trans` is the robot pose (usually `/odom_combined`) in the frame of `map`
+* `roslaunch yuri_launch despot.launch`
+* `roslaunch phasespace_acquisition phasespace_publisher.launch`
+* `rosrun phasespace_acquisition msg_2_tf.py`
+* `rosrun phasespace_acquisition localization_calibration.py`
+* This will print out the translation from `map` to the phasespace marker named as `PHASESPACE_ID_FOR_CALIBRATION` in `localization_calibration.py`.
+* You can place that LED onto the small red taped dot on the robot base, which is `odom_combined`
+* Then you can read the translation printed by `localization_calibration.py` and put the translation in `./config/fake_localization.yaml`
+  - Note that since usually we cannot place the LED glove under the robot base, we have to place it on the top of the robot base during calibration. So the translation of the LED represents the center of the top of the robot base. However, the `odom_combined` is the center of the bottom of the robot base. Therefore, here you have to manually make the last element of the translation (z) to be `0`.
+* For orientation, you have to try the euler angles by yourself. Usually you can align the robot so that you only need to rotate `90` or `180`
 
-## Info and Warnings
 
-- The *PhasespaceCore* class uses linux-specific commands, e.g. `system("mkdir -p ...")`. 
-- This code has been developed for ROS Indigo on ubuntu 14.04. No warranty for other distributions.
-
-## ROS Params
-The class provides several parameters which can be set by the user at runtime to handle even distinct hardware configuration:
-
-- topic_name *(pub/sub)*
-- topic_queue_length *(pub/sub)*
-- verbose_mode *(pub/sub)*
-- server_ip *(pub)*
-- init_marker_count *(pub)*
-- init_flags *(pub)*
-- log_file_base_path *(sub)*
-- log_file_name *(sub)*
-- log_file_name_old *(sub)*
-- log_multi_files *(sub)*
+# Finding out the translation of an object
+* `roslaunch yuri_launch despot.launch`
+* `roslaunch phasespace_acquisition phasespace_publisher.launch`
+* `rosrun phasespace_acquisition fake_localization.py`
+* `rosrun phasespace_acquisition msg_2_tf.py`
+---
+* `rosrun phasespace_acquisition object_translation_calibration.py`
+  * This will print the TF from the `BASE_FRAME` (usually `/odom_combined`) to `PHASESPACE_ID_FOR_CALIBRATION` which are both defined in `object_translation_calibration.py`
