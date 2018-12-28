@@ -36,9 +36,9 @@ tracked_objects:
     # frame_id: "phasespace/finger/pinky"
     # base_frame: "map"
     # phasespace_id: 0
-  # 8:
-    # frame_id: "phasespace/albow"
-    # base_frame: "map"
-    # phasespace_id: 8
+  8:
+    frame_id: "phasespace/albow"
+    base_frame: "map"
+    phasespace_id: 8
 
 ...
