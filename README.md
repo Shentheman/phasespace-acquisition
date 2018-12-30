@@ -8,6 +8,8 @@
   - Note that if you are running `despot.launch`, `phasespace_publisher.launch` might fail due to communication problems
   - After you physically connect the robot with phasespace, SSH into the robot router becomes very slow. So you should open all the necessary terminals with SSH **before** connecting to phasespace.
   - If connection keeps failing, then you can try reconnect the ethernet cable physically or re-Enable networking in Ubuntu.
+    + Sometimes when you switch the connection of the robot network from the Internet to PhaseSpace system, `phasespace_publisher.launch` might fail and you might have to try physical Ethernet re-connections and reboot the Ubuntu network manager.
+      + In order to avoid this trouble, please first disconnect physically the Ethernet between the robot system and the Internet, shut down Ubuntu network, wait 10 seconds, reconnect the Ethernet physically between the robot system and the PhaseSpace system. Usually in this sequence, `phasespace_publisher.launch` will work in the first try.
 * `rosrun phasespace_acquisition msg_2_tf.py`
   - This will output the left LED on the palm as `phasespace/palm/left`
   * `rosrun phasespace_acquisition msg_2_tf_avg_palm.py`
