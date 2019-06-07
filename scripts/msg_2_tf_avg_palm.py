@@ -9,7 +9,12 @@ import tf.transformations
 
 from phasespace_acquisition.msg import PhaseSpaceMarker, PhaseSpaceMarkerArray
 
+# ID 1 and 2 are the left and the right palm
 AVG_IDS = [1,2]
+
+# 1. If none of them are available, publish nothing.
+# 2(1) If both the left palm and the right palm are available, publish the average between them to TF.
+# 2(2) If only one of them is available, publish that one to TF.
 AVG_FRAME_ID = "phasespace/palm"
 
 class Msg2TFAvgPalm(object):
@@ -94,22 +99,26 @@ class Msg2TFAvgPalm(object):
                             ps_obj.point.z / 1000.
                         ]
                         transs.append(trans)
-                avg_trans = [0,0,0]
-                for i in range(3):
-                    l = [x[i] for x in transs]
-                    avg_trans[i] = sum(l) / len(l)
-                quat = [0,0,0,1]
-                originalOrigin_2_obj_mat\
-                        = tf.transformations.translation_matrix(trans)
-                newOrigin_2_obj_mat = np.dot(
-                    np.linalg.inv(self.originalOrigin_2_newOrigin_mat),
-                    originalOrigin_2_obj_mat)
-                self.br_.sendTransform(
-                    tf.transformations.translation_from_matrix(
-                        newOrigin_2_obj_mat),
-                    tf.transformations.quaternion_from_matrix(
-                        newOrigin_2_obj_mat), rospy.Time.now(),
-                    AVG_FRAME_ID, obj["base_frame"])
+
+                # 1. If none of them are available - [], publish nothing.
+                if transs != []:
+                    # 2(1) If only one of them is available,
+                    # publish that one to TF.
+                    # 2(2) If both the left palm and the right palm are
+                    # available, publish the average between them to TF.
+                    avg_trans = list(np.mean(np.array(transs), axis=0))
+                    quat = [0,0,0,1]
+                    originalOrigin_2_obj_mat\
+                            = tf.transformations.translation_matrix(avg_trans)
+                    newOrigin_2_obj_mat = np.dot(
+                        np.linalg.inv(self.originalOrigin_2_newOrigin_mat),
+                        originalOrigin_2_obj_mat)
+                    self.br_.sendTransform(
+                        tf.transformations.translation_from_matrix(
+                            newOrigin_2_obj_mat),
+                        tf.transformations.quaternion_from_matrix(
+                            newOrigin_2_obj_mat), rospy.Time.now(),
+                        AVG_FRAME_ID, obj["base_frame"])
 
             self.publish_rate_.sleep()
 
