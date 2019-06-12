@@ -10,6 +10,8 @@ find_package(catkin REQUIRED
   message_generation
 )
 
+catkin_python_setup()
+
 add_message_files(
   DIRECTORY msg
   FILES
@@ -49,11 +51,11 @@ add_executable(${BIN_TALKER}
   src/phasespace_talker.cpp
   src/phasespace_core.cpp
 )
-target_link_libraries(${BIN_TALKER} 
+target_link_libraries(${BIN_TALKER}
   ${catkin_LIBRARIES}
   owlsock
 )
-add_dependencies(${BIN_TALKER} 
+add_dependencies(${BIN_TALKER}
   ${catkin_EXPORTED_TARGETS}
 )
 
@@ -66,7 +68,7 @@ target_link_libraries(${BIN_LISTENER}
   ${catkin_LIBRARIES}
   owlsock
 )
-add_dependencies(${BIN_LISTENER} 
+add_dependencies(${BIN_LISTENER}
   ${catkin_EXPORTED_TARGETS}
 )
 
@@ -78,11 +80,11 @@ target_link_libraries(${LIB_PHASESPACE}
   ${catkin_LIBRARIES}
   owlsock
 )
-add_dependencies(${LIB_PHASESPACE} 
+add_dependencies(${LIB_PHASESPACE}
   ${catkin_EXPORTED_TARGETS}
 )
 
 # https://answers.ros.org/question/64448/trouble-with-catkin-compiling-node-and-generating-messages-in-same-package/
-add_dependencies(${LIB_PHASESPACE} 
+add_dependencies(${LIB_PHASESPACE}
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
 )

@@ -44,28 +44,6 @@ class Msg2Tf(object):
         # for the phasespace system.
         # Now here we define a new origin, as shown on RVIZ as the
         # TF of the map.
-        """
-        self.originalOrigin_2_newOrigin_trans = [0,0,0]
-        self.originalOrigin_2_newOrigin_quat = [0,0,0,1]
-        self.originalOrigin_2_newOrigin_mat\
-                = tf.transformations.quaternion_matrix(
-                        self.originalOrigin_2_newOrigin_quat)
-        self.originalOrigin_2_newOrigin_mat[0,3]\
-                = self.originalOrigin_2_newOrigin_trans[0]
-        self.originalOrigin_2_newOrigin_mat[1,3]\
-                = self.originalOrigin_2_newOrigin_trans[1]
-        self.originalOrigin_2_newOrigin_mat[2,3]\
-                = self.originalOrigin_2_newOrigin_trans[2]
-
-        # Archived:
-        #  self.originalOrigin_2_newOrigin_mat\
-                #  = np.array([\
-                #  [-1,0,0,0],\
-                #  [0,0,1,0],\
-                #  [0,1,0,0],\
-                #  [0,0,0,1]])
-        """
-
         self.originalOrigin_2_newOrigin_mat\
                 = np.array([\
                 [0,1,0,0],\
