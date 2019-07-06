@@ -5,15 +5,26 @@ publish_frequency: 100
 phasespace_topic: "/phasespace_topic"
 
 tracked_objects:
+  # With Kooka battery
+  0:
+    frame_id: "phasespace/palm/right"
+    base_frame: "map"
+    phasespace_id: 0
   1:
     frame_id: "phasespace/palm/left"
     base_frame: "map"
     phasespace_id: 1
 
-  2:
-    frame_id: "phasespace/palm/right"
-    base_frame: "map"
-    phasespace_id: 2
+  # With Burra battery
+  # 1:
+    # frame_id: "phasespace/palm/left"
+    # base_frame: "map"
+    # phasespace_id: 1
+
+  # 2:
+    # frame_id: "phasespace/palm/right"
+    # base_frame: "map"
+    # phasespace_id: 2
 
   # 3:
     # frame_id: "phasespace/finger/middle"
@@ -35,9 +46,9 @@ tracked_objects:
     # frame_id: "phasespace/finger/pinky"
     # base_frame: "map"
     # phasespace_id: 0
-  8:
-    frame_id: "phasespace/albow"
-    base_frame: "map"
-    phasespace_id: 8
+  # 8:
+    # frame_id: "phasespace/albow"
+    # base_frame: "map"
+    # phasespace_id: 8
 
 ...
