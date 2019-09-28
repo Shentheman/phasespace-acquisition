@@ -12,7 +12,8 @@ from phasespace_acquisition.msg import PhaseSpaceMarker, PhaseSpaceMarkerArray
 # "phasespace/palm/left"
 # PHASESPACE_ID_FOR_CALIBRATION = 1
 # phasespace/albow
-PHASESPACE_ID_FOR_CALIBRATION = 8
+# PHASESPACE_ID_FOR_CALIBRATION = 8
+PHASESPACE_ID_FOR_CALIBRATION = 0
 
 class LocalizationCalibration(object):
     def __init__(self):
